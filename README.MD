@@ -34,4 +34,4 @@ If you want to fix an existing one, please create a bug branch:
 
 ---
 
-Every Transformer example contains a ``function.ts`` file, whose contents can simply be copied into the Function of the specified Endpoint. Every Function also contains its own README.MD file with more details about the specific example.
+Every Function example contains a ``function.ts`` file, whose contents can simply be copied into the Function of the specified Endpoint. Every Function also contains its own README.MD file with more details about the specific example.
