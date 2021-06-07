@@ -26,7 +26,7 @@ Inside **Parameters** JSON field, additional information can be provided:
 As soon as the function instance is running, three different events will be injected to the chat conversation (Flow):
 
 1. ChatEnded
-2. ChatEstabblished
+2. ChatEstablished
 3. ChatMessage
 
 They can be used, e.g. inside of a Lookup Node, by using CognigyScript: `{{input.data.message.type}}`. In the case of the ChatMessage, one can simply use a Say Node in order to output the Agent's text message to the user:
