@@ -29,8 +29,6 @@ export default async ({ parameters, api }: ISalesforceServiceCloudAgentMessagesA
     // Start polling for Salesforce Live Chat Agent messages
     const response = await getMessage(liveAgentUrl, headers, { sessionId, urlToken, userId, api }, 0);
 
-    console.log(JSON.stringify(response))
-
     api.inject({
         data: response
     });
@@ -50,49 +48,32 @@ const getMessage = async (liveAgentUrl: string, headers: ISalesforceHeaders, { u
             headers
         });
 
-        try {
-            for (let message of messagesResponse.data?.messages) {
-                switch (message.type) {
-                    case 'ChatEstablished':
-                        return {
-                            agentAnswered: true,
-                            message
-                        }
-                    case 'ChatEnded':
-                        return {
-                            agentAnswered: true,
-                            message
-                        }
-                    case 'ChatMessage':
-                        return {
-                            agentAnswered: true,
-                            message
-                        }
-                }
-            }
-
-            // Wait three seconds until the Salesforce service will be polled again
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
-            // Poll again until the maximum number of HTTP Requests is sent
-
-            counter++;
-            if (counter < 3) {
-                await getMessage(liveAgentUrl, headers, { userId, urlToken, sessionId, api }, counter);
-            }
-            // If no message was sent in 5x3 seconds, send this information to the Flow
+        // Send the latest chat message to Cognigy
+        if (messagesResponse.data?.messages) {
             return {
-                agentAnswered: false,
-                message: null
+                agentAnswered: true,
+                message: messagesResponse.data.messages[0]
             }
+        }
 
+        // Wait three seconds until the Salesforce service will be polled again
+        await new Promise(resolve => setTimeout(resolve, 4000));
 
-        } catch (e) {
-            console.error(JSON.stringify(e))
-            return;
+        // Poll again until the maximum number of HTTP Requests is sent
+        counter++;
+        if (counter < 3) {
+            await getMessage(liveAgentUrl, headers, { userId, urlToken, sessionId, api }, counter);
+        }
+
+        // If no message was sent in 5x3 seconds, send this information to the Flow
+        return {
+            agentAnswered: false,
+            message: null
         }
     } catch (error) {
-        console.error(JSON.stringify(error))
-        return;
+        return {
+            agentAnswered: false,
+            message: null
+        }
     }
 }
