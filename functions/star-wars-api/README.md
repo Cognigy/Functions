@@ -11,7 +11,7 @@ This function provides an exmaple of how one could call an API using an HTTP req
 
 Within a Flow, the [Trigger Function](https://docs.cognigy.com/docs/cognigy-functions-1#triggering-a-function) Node can be used.
 
-<img src="./docs/exampleFlow.PNG" width="400" />
+<img src="./docs/flow.png" width="400" />
 
 Inside **Parameters** JSON field, additional information can be provided:
 
