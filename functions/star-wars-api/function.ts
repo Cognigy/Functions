@@ -4,7 +4,7 @@ export default async ({ parameters, api }: IFunctionExecutionArguments) => {
     /**
      * The parameters-object contains the parameters with which
      * this instances of your Function was started. The
-     * data can be accesed and used for data-exchange with e.g.
+     * data can be accessed and used for data-exchange with e.g.
      * your calling Flow.
      */
     const { path, index } = parameters;
